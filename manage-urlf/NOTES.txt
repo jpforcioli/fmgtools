@@ -1,0 +1,44 @@
+Class WebUrlFilter:
+
+      __init__(self):
+      
+      loadFrom(self, FortiManagerJSON, adom, urlf_name):
+
+        Idea is that all function will have to get a FortiManagerJSON class object.
+
+	I can load an object from FMG1 and for instance copy it on
+      	FMG2 by using a different FortiManagerJSON instance.
+
+	"adom" is a string.
+	"urlf_name" is a string.
+
+
+      getIdFromUrlFilterName(self, FortiManagerJSON, adom, urlf_name):
+        Problem is that the mkey for an URL Filter Object isn't the
+        name but an ID
+	return an ID
+
+      addEntry(self, Entry):
+	Entry is a class
+	This function add a new Entry at the end
+	Return True
+
+      updateEntry(self, Entry):
+	Entry is an instance containing the updated URL Filter entry.
+	We have to find the existing one and update it with the Entry
+	instance passed in argument
+	Return False if non-existing, True if existing
+
+      deleteEntry(self, Entry):
+	We delete the Entry passed in argument from the existing Entry
+	Return False if non-existing, True if existing
+
+
+class Entry:
+      __init__(self):
+
+      setWithCSVLine(line):
+
+
+      	
+	

@@ -1,0 +1,9 @@
+# url, type, action, status, referrer-host
+www.url-001.com,regex,block,enable,10.0.0.1
+www.url-002.com,wildcard,monitor,enable,10.0.0.2
+www.url-003.com,simple,monitor,enable,10.0.0.3
+www.url-004.com,simple,exempt,enable,10.0.0.2
+www.url-005.com,regex,monitor
+,enable,10.0.0.2
+www.url-006.com,wildcard,monitor,disable,10.0.0.1
+www.url-007.com,simple,block,disable,10.0.0.2

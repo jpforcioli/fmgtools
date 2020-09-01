@@ -1,0 +1,26 @@
+#! /opt/local/bin/python2.7
+
+from ftntlib import FortiManagerJSON
+
+if __name__ == '__main__':
+    ip = '192.168.244.200'
+    login = 'admin'
+    password = 'fortinet'
+    
+    fmg = FortiManagerJSON()
+    fmg.verbose('on')
+    fmg.skip('off')
+
+    fmg.login(ip, login, password)
+
+    adom = 'CM-LAB-003'
+    urlf = 1
+    url = 'pm/config/adom/{0}/obj/webfilter/urlfilter/{1}'.format(adom, urlf)
+
+    fmg.debug('on')
+    fmg.get(url)
+    fmg.debug('off')    
+
+    fmg.logout()
+    
+

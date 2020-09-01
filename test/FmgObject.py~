@@ -1,0 +1,76 @@
+#! /opt/local/bin/python2.7
+
+from ftntlib import FortiManagerJSON
+
+class FmgResponse:
+    def __init__(self):
+        self._status = None
+        self._data = None
+
+    def set(self, response):
+        self._status = response[0]
+        self._data = response[1]
+
+    def OK(self):
+        code = self._status['code']
+
+        if code != 0:
+            return False
+
+        return True
+
+    def data(self):
+        return self._data
+
+class FmgObject:
+    def __init__(self):
+        self._mkey = None
+        self._data = None
+
+    def mkey(self, mkey=None):
+        if mkey:
+            self._mkey = mkey
+
+        return self._mkey
+
+    def data(self, data):
+        if data:
+            self._data = data
+
+        return self._data
+
+    def set(self, mkey, data):
+        self._mkey = mkey
+        self._data = data
+        
+
+if __name__ == '__main__':
+
+    ip = '192.168.244.200'
+    login = 'admin'
+    password = 'fortinet'
+    
+    fmg = FortiManagerJSON()
+    fmg.verbose('on')
+    fmg.login(ip, login, password)
+
+    response = FmgResponse()
+
+    adom = 'CM-LAB-001'
+
+    url = 'pm/config/adom/{0}/obj/firewall/address'.format(adom)
+
+    response.set(fmg.get(url))
+
+    table = []
+
+    if response.OK():
+        for data in response.data():
+            obj = FmgObject()
+            obj.mkey(data['name'])
+            obj.data(data)
+            table.append(obj)
+            print obj.mkey()
+
+    fmg.logout()
+

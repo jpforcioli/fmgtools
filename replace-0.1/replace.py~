@@ -1,0 +1,58 @@
+#! /opt/local/bin/python2.7
+
+from ftntlib import FortiManagerJSON
+import time
+
+if __name__ == '__main__':
+    ip = '192.168.123.200'
+    login = 'admin'
+    password = 'fortinet'
+
+    api = FortiManagerJSON()
+    api.verbose('on')
+
+    api.login(ip, login, password)
+
+    url_addr = 'adom/{}/obj/firewall/address'
+    url_gaddr = 'adom/{}/obj/firewall/addrgrp'    
+
+    adom = 'ADOM_54_001'
+    mkey = 'HOST_001'
+
+    url_wu_start = 'cache/search/where/used/start'
+    url_wu_summary = 'cache/search/where/used/get/summary'
+    url_wu_detail = 'cache/search/where/used/get/detail'    
+
+    datagram = {
+        'cache': 1,
+        'method': 'exec',
+        'id': 1,
+        'session': api._sid,
+        'params': [
+            {
+                'data': {
+                    'mkey': mkey,
+                    'obj': url_addr.format(adom)
+                },
+                'url': url_wu_start,
+            },
+        ]
+    }
+
+    api.debug('on')
+
+    response = api.baredo (datagram)
+    print response
+
+    datagram['params'][0]['data'] = response[1]
+    datagram['params'][0]['url'] = url_wu_summary
+    summary = api.baredo(datagram)
+    print summary
+
+    datagram['params'][0]['url'] = url_wu_detail
+    detail = api.execute(datagram)
+    print detail    
+
+    api.logout()
+    
+    
